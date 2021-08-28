@@ -60,44 +60,93 @@ namespace MitrooPistV2.Data
 
         public tblNomika Get(long id)
         {
-            var obj = Connection.Get<tblNomika>(id);
-            return obj;
+            try
+            {
+                var obj = Connection.Get<tblNomika>(id);
+                return obj;
+            }
+            catch (NpgsqlException ex)
+            {
+                return null;
+            }
         }
 
         public List<tblNomika> GetAll()
         {
-            var oList = Connection.GetAll<tblNomika>().AsList();
-            return oList;
+            try
+            {
+                var oList = Connection.GetAll<tblNomika>().AsList();
+                return oList;
+            }
+            catch (NpgsqlException ex)
+            {
+                return null;
+            }
         }
 
         public tblNomika GetByEmail(string email)
         {
-            var obj = Connection.QueryFirst<tblNomika>(SqlSelectCommand + " WHERE email=@email", new { email = email });
-            return obj;
+            try
+            {
+                var obj = Connection.QueryFirst<tblNomika>(SqlSelectCommand + " WHERE email=@email", new { email = email });
+                return obj;
+            }
+            catch (NpgsqlException ex)
+            {
+                return null;
+            }
         }
 
         public tblNomika GetByLogin(string login)
         {
-            var obj = Connection.QueryFirst<tblNomika>(SqlSelectCommand + " WHERE login=@login", new { login = login });
-            return obj;
+            try
+            {
+                var obj = Connection.QueryFirst<tblNomika>(SqlSelectCommand + " WHERE login=@login", new { login = login });
+                return obj;
+            }
+            catch (NpgsqlException ex)
+            {
+                return null;
+            }
         }
 
         public long Insert(tblNomika crmUser)
         {
-            var identity = Connection.Insert<tblNomika>(crmUser);
-            return identity;
+            try
+            {
+                var identity = Connection.Insert<tblNomika>(crmUser);
+                return identity;
+            }
+            catch (NpgsqlException ex)
+            {
+                return 0;
+            }
         }
 
         public bool Update(tblNomika crmUser)
         {
-            var isSuccess = Connection.Update<tblNomika>(crmUser);
-            return isSuccess;
+            try
+            {
+                var isSuccess = Connection.Update<tblNomika>(crmUser);
+                return isSuccess;
+            }
+            catch (NpgsqlException ex)
+            {
+                return false;
+            }
         }
 
         public bool Delete(tblNomika crmUser)
         {
-            var isSuccess = Connection.Delete<tblNomika>(crmUser);
-            return isSuccess;
+            try
+            {
+                var isSuccess = Connection.Delete<tblNomika>(crmUser);
+                return isSuccess;
+            }
+            catch (NpgsqlException ex)
+            {
+                return false;
+            }
         }
 
     }

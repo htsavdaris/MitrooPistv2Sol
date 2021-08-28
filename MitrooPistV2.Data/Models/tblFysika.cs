@@ -70,27 +70,27 @@ namespace MitrooPistV2.Data
 
         public tblFysika Get(long id)
         {
-            var obj = Connection.Get<tblFysika>(id);
-            return obj;
+            try
+            {
+                var obj = Connection.Get<tblFysika>(id);
+                return obj;
+            }
+            catch (NpgsqlException ex)
+            {
+                return null;
+            }
         }
 
         public List<tblFysika> GetAll()
         {
-            if (Connection != null)
+            try
             {
-                try
-                {
-                    var oList = Connection.GetAll<tblFysika>().AsList();
-                    return oList;
-                }
-                catch (Exception ex)
-                {
-                    return null;
-                }
+                var oList = Connection.GetAll<tblFysika>().AsList();
+                return oList;
             }
-            else
+            catch (NpgsqlException ex)
             {
-                throw new ApplicationException("Database connection not established. Contact administrator");
+                return null;
             }
         }
 
@@ -102,20 +102,41 @@ namespace MitrooPistV2.Data
 
         public long Insert(tblFysika crmUser)
         {
-            var identity = Connection.Insert<tblFysika>(crmUser);
-            return identity;
+            try
+            {
+                var identity = Connection.Insert<tblFysika>(crmUser);
+                return identity;
+            }
+            catch (NpgsqlException ex)
+            {
+                return 0;
+            }
         }
 
         public bool Update(tblFysika crmUser)
         {
-            var isSuccess = Connection.Update<tblFysika>(crmUser);
-            return isSuccess;
+            try
+            {
+                var isSuccess = Connection.Update<tblFysika>(crmUser);
+                return isSuccess;
+            }
+            catch (NpgsqlException ex)
+            {
+                return false;
+            }
         }
 
         public bool Delete(tblFysika crmUser)
         {
-            var isSuccess = Connection.Delete<tblFysika>(crmUser);
-            return isSuccess;
+            try
+            {
+                var isSuccess = Connection.Delete<tblFysika>(crmUser);
+                return isSuccess;
+            }
+            catch (NpgsqlException ex)
+            {
+                return false;
+            }
         }
     }
 }
