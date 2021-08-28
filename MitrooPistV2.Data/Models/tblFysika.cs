@@ -76,8 +76,22 @@ namespace MitrooPistV2.Data
 
         public List<tblFysika> GetAll()
         {
-            var oList = Connection.GetAll<tblFysika>().AsList();
-            return oList;
+            if (Connection != null)
+            {
+                try
+                {
+                    var oList = Connection.GetAll<tblFysika>().AsList();
+                    return oList;
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                throw new ApplicationException("Database connection not established. Contact administrator");
+            }
         }
 
         public tblFysika GetByEmail(string fldemail)

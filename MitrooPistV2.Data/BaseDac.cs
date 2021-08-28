@@ -14,11 +14,6 @@ namespace MitrooPistV2.Data
         private IDbConnection _connection;
         private IDbTransaction _transaction;
 
-        protected BaseDac()
-        {
-            Connection = new Npgsql.NpgsqlConnection();
-        }
-
         public string ConnectionString
         {
             get { return _connectionString; }
@@ -29,6 +24,16 @@ namespace MitrooPistV2.Data
         {
             get { return _connection; }
             protected set { _connection = value; }
+        }
+
+        protected BaseDac()
+        {
+            Connection = ConnectionFactory.createConnection();
+        }
+
+        public BaseDac(string ConnectionString)
+        {
+            Connection = ConnectionFactory.createConnection(ConnectionString);
         }
 
         public IDbTransaction Transaction
