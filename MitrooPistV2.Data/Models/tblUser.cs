@@ -85,14 +85,27 @@ namespace MitrooPistV2.Data
 
         //public tblUser GetByEmail(string email)
         //{
-        //    var obj = Connection.QueryFirst<tblUser>(SqlSelectCommand + " WHERE email=@email", new { email = email });
+        //    var obj = Connection.QueryFirstOrDefault<tblUser>(SqlSelectCommand + " WHERE email=@email", new { email = email });
         //    return obj;
         //}
 
         public tblUser GetByLogin(string fldlogin)
         {
-            var obj = Connection.QueryFirst<tblUser>(SqlSelectCommand + " WHERE fldlogin=@fldlogin", new { fldlogin = fldlogin });
-            return obj;
+            try
+            {
+                var obj = Connection.QueryFirstOrDefault<tblUser>(SqlSelectCommand + " WHERE fldlogin=@fldlogin", new { fldlogin = fldlogin });
+                if (obj !=null)
+                    return obj;
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Npgsql.NpgsqlException ex)
+            {
+                return null;
+            }
+            
         }
 
         public long Insert(tblUser oUser)

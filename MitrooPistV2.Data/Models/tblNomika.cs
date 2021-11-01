@@ -72,16 +72,11 @@ namespace MitrooPistV2.Data
 
         public tblNomika GetByEmail(string email)
         {
-            var obj = Connection.QueryFirst<tblNomika>(SqlSelectCommand + " WHERE email=@email", new { email = email });
+            var obj = Connection.QueryFirstOrDefault<tblNomika>(SqlSelectCommand + " WHERE email=@email", new { email = email });
             return obj;
         }
 
-        public tblNomika GetByLogin(string login)
-        {
-            var obj = Connection.QueryFirst<tblNomika>(SqlSelectCommand + " WHERE login=@login", new { login = login });
-            return obj;
-        }
-
+       
         public long Insert(tblNomika crmUser)
         {
             var identity = Connection.Insert<tblNomika>(crmUser);

@@ -82,7 +82,7 @@ namespace MitrooPistV2.Data
 
         public tblFysika GetByEmail(string fldemail)
         {
-            var obj = Connection.QueryFirst<tblFysika>(SqlSelectCommand + " WHERE fldemail=@fldemail", new { fldemail = fldemail });
+            var obj = Connection.QueryFirstOrDefault<tblFysika>(SqlSelectCommand + " WHERE fldemail=@fldemail", new { fldemail = fldemail });
             return obj;
         }
 
