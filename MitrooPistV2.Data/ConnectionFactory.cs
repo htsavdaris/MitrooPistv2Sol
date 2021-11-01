@@ -11,9 +11,29 @@ namespace MitrooPistV2.Data
 
         public static IDbConnection createConnection(string ConnectionString)
         {
+            try
+            {
+                NpgsqlConnection DataConnection = new NpgsqlConnection(ConnectionString);
+                return DataConnection;
+            }
+            catch (NpgsqlException ex)
+            {
+                return null;
+            }
+        }
 
-            NpgsqlConnection DataConnection = new NpgsqlConnection(ConnectionString);
-            return DataConnection;
+
+        public static IDbConnection createConnection()
+        {
+            try
+            {
+                NpgsqlConnection DataConnection = new NpgsqlConnection();
+                return DataConnection;
+            }
+            catch (NpgsqlException ex)
+            {
+                return null;
+            }
         }
     }
 }
