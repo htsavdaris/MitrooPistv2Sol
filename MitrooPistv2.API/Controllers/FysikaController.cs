@@ -10,8 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using MitrooPistV2.Data;
-
-
+using Microsoft.Extensions.Logging;
+using NLog;
 
 namespace MitrooPistv2.API.Controllers
 {
@@ -20,9 +20,13 @@ namespace MitrooPistv2.API.Controllers
     public class FysikaController : ControllerBase
     {
         private readonly IConfiguration configuration;
-        public FysikaController(IConfiguration config)
+        private readonly ILogger<FysikaController> _logger;
+
+        public FysikaController(IConfiguration config, ILogger<FysikaController> logger)
         {
             this.configuration = config;
+            _logger = logger;
+            _logger.LogTrace(1, "NLog injected into FysikaController");
         }
 
         [HttpGet("{id}"), AllowAnonymous]
@@ -52,6 +56,7 @@ namespace MitrooPistv2.API.Controllers
         [HttpGet, AllowAnonymous]
         public ActionResult<List<tblFysika>> Get()
         {
+            _logger.LogError(1, "Get All is called");
             string connStr = configuration.GetConnectionString("DefaultConnection");
             List<tblFysika> fysikaList;
             using (tblFysikaDac dac = new tblFysikaDac(connStr))

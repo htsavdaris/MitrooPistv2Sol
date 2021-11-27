@@ -14,19 +14,15 @@ namespace MitrooPistv2.API
     {
         public static void Main(string[] args)
         {
-            var config = new NLog.Config.LoggingConfiguration();
-            var logfile = new NLog.Targets.FileTarget("logfile") { FileName = "log.txt" };
-            config.AddRule(NLog.LogLevel.Debug, NLog.LogLevel.Fatal, logfile);
-            NLog.LogManager.Configuration = config;
-            var logger = NLog.LogManager.GetCurrentClassLogger();
+            var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
             try
             {
-                logger.Debug("Application Starting Up");
+                logger.Trace("Application Starting Up");
                 CreateHostBuilder(args).Build().Run();
             }
             catch (Exception exception)
             {
-                logger.Error(exception, "Stopped program because of exception");
+                logger.Trace(exception, "Stopped program because of exception");
                 throw;
             }
             finally
@@ -40,6 +36,11 @@ namespace MitrooPistv2.API
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                }).ConfigureLogging(
+                logger =>
+                {
+                    logger.ClearProviders();
+                    logger.SetMinimumLevel(LogLevel.Trace);
+                }).UseNLog();
     }
 }
