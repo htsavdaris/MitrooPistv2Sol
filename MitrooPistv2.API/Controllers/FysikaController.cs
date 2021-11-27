@@ -56,23 +56,28 @@ namespace MitrooPistv2.API.Controllers
         [HttpGet, AllowAnonymous]
         public ActionResult<List<tblFysika>> Get()
         {
-            _logger.LogError(1, "Get All is called");
+            _logger.LogTrace(1, "Get All is called");
             string connStr = configuration.GetConnectionString("DefaultConnection");
+            _logger.LogTrace(1, "Connection String:" + connStr);
             List<tblFysika> fysikaList;
             using (tblFysikaDac dac = new tblFysikaDac(connStr))
             {
                 try
                 {
                     fysikaList = dac.GetAll();
-                    fysikaList.Shuffle();
+                    _logger.LogTrace(1, "DAC GetAll Called");
                     if (fysikaList == null)
                     {
+                        _logger.LogTrace(1, "Not Found");
                         return NotFound();
                     }
+                    _logger.LogTrace(1, "No of Items:" + fysikaList.Count().ToString());
+                    fysikaList.Shuffle();
                     return Ok(fysikaList);
                 }
                 catch (Npgsql.NpgsqlException ex)
                 {
+                    _logger.LogError(1, "NpgsqlException Code:" + ex.ErrorCode + " Message :" +ex.Message);
                     return BadRequest(ex.Message);
                 }
             }

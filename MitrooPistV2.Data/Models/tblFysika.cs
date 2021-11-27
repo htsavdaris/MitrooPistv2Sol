@@ -31,7 +31,7 @@ namespace MitrooPistV2.Data
         public Boolean fldd { get; set; }
         public Boolean flde { get; set; }
         public Boolean fldst { get; set; }
-
+        
 
     }
 
@@ -41,18 +41,22 @@ namespace MitrooPistV2.Data
 
         public const string SqlTableName = "tblfysika";
         public const string SqlSelectCommand = "SELECT * FROM " + SqlTableName + " ";
+        //private readonly ILogger _logger;
 
         public tblFysikaDac()
-        {
+        {            
         }
 
         public tblFysikaDac(string ConnectionString)
         {
+            //_logger = logger;
             Connection = ConnectionFactory.createConnection(ConnectionString);
+            //_logger.LogTrace(1, ConnectionString);
         }
 
         public tblFysikaDac(IDbConnection connection)
         {
+            //_logger = logger;
             Connection = connection;
         }
 
@@ -85,11 +89,14 @@ namespace MitrooPistV2.Data
         {
             try
             {
+
                 var oList = Connection.GetAll<tblFysika>().AsList();
                 return oList;
             }
             catch (NpgsqlException ex)
             {
+                Console.WriteLine(ex.Message);
+                //_logger.LogError(1, "List NpgsqlException Code:" + ex.ErrorCode + " Message :" + ex.Message);
                 return null;
             }
         }
