@@ -14,7 +14,7 @@ namespace MitrooPistV2.Data
     [Dapper.Contrib.Extensions.Table("tblfysika")]
     public class tblFysika
     {
-        [Dapper.Contrib.Extensions.Key]        
+        [Dapper.Contrib.Extensions.ExplicitKey]        
         public int fldam { get; set; }
         public string fldeponymo { get; set; }
         public string fldonoma { get; set; }
@@ -29,9 +29,6 @@ namespace MitrooPistV2.Data
         public Boolean fldb { get; set; }
         public Boolean fldc { get; set; }
         public Boolean fldd { get; set; }
-        public Boolean flde { get; set; }
-        public Boolean fldst { get; set; }
-        
 
     }
 
@@ -107,11 +104,11 @@ namespace MitrooPistV2.Data
             return obj;
         }
 
-        public long Insert(tblFysika crmUser)
+        public long Insert(tblFysika obj)
         {
             try
             {
-                var identity = Connection.Insert<tblFysika>(crmUser);
+                var identity = Connection.Insert<tblFysika>(obj);
                 return identity;
             }
             catch (NpgsqlException ex)
@@ -120,11 +117,11 @@ namespace MitrooPistV2.Data
             }
         }
 
-        public bool Update(tblFysika crmUser)
+        public bool Update(tblFysika obj)
         {
             try
             {
-                var isSuccess = Connection.Update<tblFysika>(crmUser);
+                var isSuccess = Connection.Update<tblFysika>(obj);
                 return isSuccess;
             }
             catch (NpgsqlException ex)
@@ -133,11 +130,11 @@ namespace MitrooPistV2.Data
             }
         }
 
-        public bool Delete(tblFysika crmUser)
+        public bool Delete(tblFysika obj)
         {
             try
             {
-                var isSuccess = Connection.Delete<tblFysika>(crmUser);
+                var isSuccess = Connection.Delete<tblFysika>(obj);
                 return isSuccess;
             }
             catch (NpgsqlException ex)

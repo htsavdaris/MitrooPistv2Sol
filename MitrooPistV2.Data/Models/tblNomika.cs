@@ -21,10 +21,10 @@ namespace MitrooPistV2.Data
         public string fldNomos { get; set; }
         public string fldTilefono { get; set; }
         public string fldEmail { get; set; }
-        public Boolean fldA { get; set; }
-        public Boolean fldB { get; set; }
-        public Boolean fldC { get; set; }
-        public Boolean fldD { get; set; }
+        public Boolean flda { get; set; }
+        public Boolean fldb { get; set; }
+        public Boolean fldc { get; set; }
+        public Boolean fldd { get; set; }
     }
 
     public class tblNomikaDac : BaseDac
