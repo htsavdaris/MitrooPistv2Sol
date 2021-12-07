@@ -14,13 +14,13 @@ namespace MitrooPistV2.Data
     public class tblNomika
     {
         [Dapper.Contrib.Extensions.Key]
-        public int fldAM { get; set; }
-        public string fldEponymia { get; set; }
-        public string fldYpefthinos { get; set; }
-        public string fldDieythynsi { get; set; }
-        public string fldNomos { get; set; }
-        public string fldTilefono { get; set; }
-        public string fldEmail { get; set; }
+        public int fldam { get; set; }
+        public string fldeponymia { get; set; }
+        public string fldypefthinos { get; set; }
+        public string flddieythynsi { get; set; }
+        public string fldnomos { get; set; }
+        public string fldtilefono { get; set; }
+        public string fldemail { get; set; }
         public Boolean flda { get; set; }
         public Boolean fldb { get; set; }
         public Boolean fldc { get; set; }
