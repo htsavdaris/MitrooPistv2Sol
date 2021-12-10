@@ -28,12 +28,17 @@ namespace MitrooPistV2.Data
 
         protected BaseDac()
         {
-            Connection = ConnectionFactory.createConnection();
+            //Connection = ConnectionFactory.createConnection();
         }
 
         public BaseDac(string ConnectionString)
         {
-            Connection = ConnectionFactory.createConnection(ConnectionString);
+            //Connection = ConnectionFactory.createConnection(ConnectionString);
+        }
+
+        public BaseDac(IDbConnection connection)
+        {
+            Connection = connection;
         }
 
         public IDbTransaction Transaction

@@ -10,8 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using MitrooPistV2.Data;
-
-
+using Microsoft.Extensions.Logging;
+using NLog;
 
 namespace MitrooPistv2.API.Controllers
 {
@@ -20,9 +20,13 @@ namespace MitrooPistv2.API.Controllers
     public class FysikaController : ControllerBase
     {
         private readonly IConfiguration configuration;
-        public FysikaController(IConfiguration config)
+        private readonly ILogger<FysikaController> _logger;
+
+        public FysikaController(IConfiguration config, ILogger<FysikaController> logger)
         {
             this.configuration = config;
+            _logger = logger;
+            _logger.LogTrace(1, "NLog injected into FysikaController");
         }
 
         [HttpGet("{id}"), AllowAnonymous]
@@ -52,22 +56,28 @@ namespace MitrooPistv2.API.Controllers
         [HttpGet, AllowAnonymous]
         public ActionResult<List<tblFysika>> Get()
         {
+            _logger.LogTrace(1, "Get All is called");
             string connStr = configuration.GetConnectionString("DefaultConnection");
+            _logger.LogTrace(1, "Connection String:" + connStr);
             List<tblFysika> fysikaList;
             using (tblFysikaDac dac = new tblFysikaDac(connStr))
             {
                 try
                 {
                     fysikaList = dac.GetAll();
-                    fysikaList.Shuffle();
+                    _logger.LogTrace(1, "DAC GetAll Called");
                     if (fysikaList == null)
                     {
+                        _logger.LogTrace(1, "Not Found");
                         return NotFound();
                     }
+                    _logger.LogTrace(1, "No of Items:" + fysikaList.Count().ToString());
+                    fysikaList.Shuffle();
                     return Ok(fysikaList);
                 }
                 catch (Npgsql.NpgsqlException ex)
                 {
+                    _logger.LogError(1, "NpgsqlException Code:" + ex.ErrorCode + " Message :" +ex.Message);
                     return BadRequest(ex.Message);
                 }
             }
@@ -84,7 +94,7 @@ namespace MitrooPistv2.API.Controllers
                 {
                     long id = dac.Insert(obj);
                     if (id > 0)
-                        return CreatedAtRoute("fysika", new { id = id }, obj);
+                        return Ok();
                     else
                         return Conflict();
                 }
@@ -110,7 +120,7 @@ namespace MitrooPistv2.API.Controllers
                     return BadRequest(ex.Message);
                 }
             }
-            return NoContent();
+            return Ok();
         }
 
         // DELETE: api/

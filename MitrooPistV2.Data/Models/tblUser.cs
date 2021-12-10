@@ -97,13 +97,19 @@ namespace MitrooPistV2.Data
         {
             try
             {
-                var obj = Connection.QueryFirst<tblUser>(SqlSelectCommand + " WHERE fldlogin=@fldlogin", new { fldlogin = fldlogin });
-                return obj;
+                var obj = Connection.QueryFirstOrDefault<tblUser>(SqlSelectCommand + " WHERE fldlogin=@fldlogin", new { fldlogin = fldlogin });
+                if (obj !=null)
+                    return obj;
+                else
+                {
+                    return null;
+                }
             }
-            catch (NpgsqlException ex)
+            catch (Npgsql.NpgsqlException ex)
             {
                 return null;
             }
+            
         }
 
         public long Insert(tblUser oUser)

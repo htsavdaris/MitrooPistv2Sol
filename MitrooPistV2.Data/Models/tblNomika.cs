@@ -14,17 +14,17 @@ namespace MitrooPistV2.Data
     public class tblNomika
     {
         [Dapper.Contrib.Extensions.Key]
-        public int fldAM { get; set; }
-        public string fldEponymia { get; set; }
-        public string fldYpefthinos { get; set; }
-        public string fldDieythynsi { get; set; }
-        public string fldNomos { get; set; }
-        public string fldTilefono { get; set; }
-        public string fldEmail { get; set; }
-        public Boolean fldA { get; set; }
-        public Boolean fldB { get; set; }
-        public Boolean fldC { get; set; }
-        public Boolean fldD { get; set; }
+        public int fldam { get; set; }
+        public string fldeponymia { get; set; }
+        public string fldypefthinos { get; set; }
+        public string flddieythynsi { get; set; }
+        public string fldnomos { get; set; }
+        public string fldtilefono { get; set; }
+        public string fldemail { get; set; }
+        public Boolean flda { get; set; }
+        public Boolean fldb { get; set; }
+        public Boolean fldc { get; set; }
+        public Boolean fldd { get; set; }
     }
 
     public class tblNomikaDac : BaseDac
@@ -73,28 +73,14 @@ namespace MitrooPistV2.Data
 
         public List<tblNomika> GetAll()
         {
-            try
-            {
-                var oList = Connection.GetAll<tblNomika>().AsList();
-                return oList;
-            }
-            catch (NpgsqlException ex)
-            {
-                return null;
-            }
+            var oList = Connection.GetAll<tblNomika>().AsList();
+            return oList;
         }
 
         public tblNomika GetByEmail(string email)
         {
-            try
-            {
-                var obj = Connection.QueryFirst<tblNomika>(SqlSelectCommand + " WHERE email=@email", new { email = email });
-                return obj;
-            }
-            catch (NpgsqlException ex)
-            {
-                return null;
-            }
+            var obj = Connection.QueryFirst<tblNomika>(SqlSelectCommand + " WHERE email=@email", new { email = email });
+            return obj;
         }
 
         public tblNomika GetByLogin(string login)

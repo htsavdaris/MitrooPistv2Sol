@@ -14,7 +14,7 @@ namespace MitrooPistV2.Data
     [Dapper.Contrib.Extensions.Table("tblfysika")]
     public class tblFysika
     {
-        [Dapper.Contrib.Extensions.Key]        
+        [Dapper.Contrib.Extensions.ExplicitKey]        
         public int fldam { get; set; }
         public string fldeponymo { get; set; }
         public string fldonoma { get; set; }
@@ -29,9 +29,6 @@ namespace MitrooPistV2.Data
         public Boolean fldb { get; set; }
         public Boolean fldc { get; set; }
         public Boolean fldd { get; set; }
-        public Boolean flde { get; set; }
-        public Boolean fldst { get; set; }
-
 
     }
 
@@ -41,18 +38,22 @@ namespace MitrooPistV2.Data
 
         public const string SqlTableName = "tblfysika";
         public const string SqlSelectCommand = "SELECT * FROM " + SqlTableName + " ";
+        //private readonly ILogger _logger;
 
         public tblFysikaDac()
-        {
+        {            
         }
 
         public tblFysikaDac(string ConnectionString)
         {
+            //_logger = logger;
             Connection = ConnectionFactory.createConnection(ConnectionString);
+            //_logger.LogTrace(1, ConnectionString);
         }
 
         public tblFysikaDac(IDbConnection connection)
         {
+            //_logger = logger;
             Connection = connection;
         }
 
@@ -85,26 +86,29 @@ namespace MitrooPistV2.Data
         {
             try
             {
+
                 var oList = Connection.GetAll<tblFysika>().AsList();
                 return oList;
             }
             catch (NpgsqlException ex)
             {
+                Console.WriteLine(ex.Message);
+                //_logger.LogError(1, "List NpgsqlException Code:" + ex.ErrorCode + " Message :" + ex.Message);
                 return null;
             }
         }
 
         public tblFysika GetByEmail(string fldemail)
         {
-            var obj = Connection.QueryFirst<tblFysika>(SqlSelectCommand + " WHERE fldemail=@fldemail", new { fldemail = fldemail });
+            var obj = Connection.QueryFirstOrDefault<tblFysika>(SqlSelectCommand + " WHERE fldemail=@fldemail", new { fldemail = fldemail });
             return obj;
         }
 
-        public long Insert(tblFysika crmUser)
+        public long Insert(tblFysika obj)
         {
             try
             {
-                var identity = Connection.Insert<tblFysika>(crmUser);
+                var identity = Connection.Insert<tblFysika>(obj);
                 return identity;
             }
             catch (NpgsqlException ex)
@@ -113,11 +117,11 @@ namespace MitrooPistV2.Data
             }
         }
 
-        public bool Update(tblFysika crmUser)
+        public bool Update(tblFysika obj)
         {
             try
             {
-                var isSuccess = Connection.Update<tblFysika>(crmUser);
+                var isSuccess = Connection.Update<tblFysika>(obj);
                 return isSuccess;
             }
             catch (NpgsqlException ex)
@@ -126,11 +130,11 @@ namespace MitrooPistV2.Data
             }
         }
 
-        public bool Delete(tblFysika crmUser)
+        public bool Delete(tblFysika obj)
         {
             try
             {
-                var isSuccess = Connection.Delete<tblFysika>(crmUser);
+                var isSuccess = Connection.Delete<tblFysika>(obj);
                 return isSuccess;
             }
             catch (NpgsqlException ex)
