@@ -9,6 +9,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace MitrooPistv2.API
 {
@@ -25,6 +28,33 @@ namespace MitrooPistv2.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mitroo Pist Ektimiton", Version = "v1" });
+            });
+           
+            var secret = System.Text.Encoding.ASCII.GetBytes("This is my secret key!!");
+            services.AddAuthentication(c =>
+                {
+                    c.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    c.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                }).AddJwtBearer(c => { 
+                    c.RequireHttpsMetadata = false;
+                    c.SaveToken = true;
+                    c.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(secret),
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidIssuer = "Issuer",
+                        ValidAudience = "Audience",
+                        ClockSkew = TimeSpan.Zero,
+                    };
+                });
+
+            //services.AddScoped<IApplicationUser, ApplicationUser>();
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
@@ -45,6 +75,7 @@ namespace MitrooPistv2.API
 
             app.UseRouting();
             app.UseCors("MyPolicy");
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
