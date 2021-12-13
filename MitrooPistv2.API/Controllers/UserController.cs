@@ -73,7 +73,6 @@ namespace MitrooPistv2.API.Controllers
                 user = dac.Authenticate(userDto.login, userDto.password);
             }
 
-
             if (user == null)
                 return StatusCode(StatusCodes.Status403Forbidden, new { message = "Username or password is incorrect" });
 
@@ -90,7 +89,7 @@ namespace MitrooPistv2.API.Controllers
                 issuer: "http://localhost:5000",
                 audience: "http://localhost:5000",
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(10),
+                expires: DateTime.Now.AddMinutes(15),
                 signingCredentials: signinCredentials
             );
 
@@ -115,6 +114,7 @@ namespace MitrooPistv2.API.Controllers
             }
             if (res)
             {
+               
                 return Ok();
             }
             else

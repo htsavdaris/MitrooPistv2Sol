@@ -32,8 +32,10 @@ namespace MitrooPistv2.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mitroo Pist Ektimiton", Version = "v1" });
             });
-           
-            var secret = System.Text.Encoding.ASCII.GetBytes("This is my secret key!!");
+            
+            //The JWT Encryption Key
+            var secret = System.Text.Encoding.ASCII.GetBytes("superSecretKey@345!");
+
             services.AddAuthentication(c =>
                 {
                     c.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -48,8 +50,8 @@ namespace MitrooPistv2.API
                         ValidateIssuer = true,
                         ValidateAudience = true,
                         ValidateLifetime = true,
-                        ValidIssuer = "Issuer",
-                        ValidAudience = "Audience",
+                        ValidIssuer = "http://localhost:5000",
+                        ValidAudience = "http://localhost:5000",
                         ClockSkew = TimeSpan.Zero,
                     };
                 });
