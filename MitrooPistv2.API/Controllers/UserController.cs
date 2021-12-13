@@ -114,7 +114,6 @@ namespace MitrooPistv2.API.Controllers
             }
             if (res)
             {
-               
                 return Ok();
             }
             else
