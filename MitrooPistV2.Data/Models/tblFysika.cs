@@ -69,6 +69,12 @@ namespace MitrooPistV2.Data
             Connection = dapProvider.Connection;
         }
 
+        ~tblFysikaDac()
+        {
+            if (Connection != null)
+                Connection.Close();
+        }
+
         public tblFysika Get(long id)
         {
             try

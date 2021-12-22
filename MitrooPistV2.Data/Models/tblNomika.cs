@@ -58,6 +58,12 @@ namespace MitrooPistV2.Data
             Connection = dapProvider.Connection;
         }
 
+        ~tblNomikaDac()
+        {
+            if (Connection != null)
+                Connection.Close();
+        }
+
         public tblNomika Get(long id)
         {
             try
