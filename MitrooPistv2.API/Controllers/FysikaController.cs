@@ -27,7 +27,9 @@ namespace MitrooPistv2.API.Controllers
             this.configuration = config;
             _logger = logger;
             _logger.LogTrace(1, "NLog injected into FysikaController");
+            //_logger.LogTrace(1, config.ToString());
         }
+    }
 
         [HttpGet("{id}"), AllowAnonymous]
         public ActionResult<tblFysika> Get(long id)

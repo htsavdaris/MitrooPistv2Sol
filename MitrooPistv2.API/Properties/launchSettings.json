@@ -19,7 +19,7 @@
     "MitrooPistv2.API": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "weatherforecast",
+      "launchUrl": "api/fysika",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
