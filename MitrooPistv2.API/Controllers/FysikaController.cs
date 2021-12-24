@@ -26,17 +26,16 @@ namespace MitrooPistv2.API.Controllers
         {
             this.configuration = config;
             _logger = logger;
-            _logger.LogTrace(1, "NLog injected into FysikaController");
-            //_logger.LogTrace(1, config.ToString());
+            _logger.LogTrace(1, "NLog injected into FysikaController");           
         }
-    }
+
 
         [HttpGet("{id}"), AllowAnonymous]
         public ActionResult<tblFysika> Get(long id)
         {
             string connStr = configuration.GetConnectionString("DefaultConnection");
             tblFysika obj;
-            using (tblFysikaDac dac = new tblFysikaDac(connStr))
+            using (tblFysikaDac dac = new tblFysikaDac(connStr,_logger))
             {
                 try
                 {
@@ -62,7 +61,7 @@ namespace MitrooPistv2.API.Controllers
             string connStr = configuration.GetConnectionString("DefaultConnection");
             _logger.LogTrace(1, "Connection String:" + connStr);
             List<tblFysika> fysikaList;
-            using (tblFysikaDac dac = new tblFysikaDac(connStr))
+            using (tblFysikaDac dac = new tblFysikaDac(connStr, _logger))
             {
                 try
                 {
@@ -79,7 +78,7 @@ namespace MitrooPistv2.API.Controllers
                 }
                 catch (Npgsql.NpgsqlException ex)
                 {
-                    _logger.LogError(1, "NpgsqlException Code:" + ex.ErrorCode + " Message :" +ex.Message);
+                    _logger.LogError(1, "NpgsqlException Code:" + ex.ErrorCode + " Message :" + ex.Message);
                     return BadRequest(ex.Message);
                 }
             }
@@ -90,7 +89,7 @@ namespace MitrooPistv2.API.Controllers
         public IActionResult Post([FromBody] tblFysika obj)
         {
             string connStr = configuration.GetConnectionString("DefaultConnection");
-            using (tblFysikaDac dac = new tblFysikaDac(connStr))
+            using (tblFysikaDac dac = new tblFysikaDac(connStr,_logger))
             {
                 try
                 {
@@ -111,11 +110,11 @@ namespace MitrooPistv2.API.Controllers
         public IActionResult Put(int id, [FromBody] tblFysika obj)
         {
             string connStr = configuration.GetConnectionString("DefaultConnection");
-            using (tblFysikaDac dac = new tblFysikaDac(connStr))
+            using (tblFysikaDac dac = new tblFysikaDac(connStr,_logger))
             {
                 try
-                { 
-                    bool isSuccess = dac.Update(obj); 
+                {
+                    bool isSuccess = dac.Update(obj);
                 }
                 catch (Npgsql.NpgsqlException ex)
                 {
@@ -133,3 +132,4 @@ namespace MitrooPistv2.API.Controllers
 
     }
 }
+

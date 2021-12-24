@@ -7,7 +7,7 @@ using Dapper.Contrib;
 using Dapper.Contrib.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Npgsql;
-
+using Microsoft.Extensions.Logging;
 
 namespace MitrooPistV2.Data
 {
@@ -38,33 +38,36 @@ namespace MitrooPistV2.Data
 
         public const string SqlTableName = "tblfysika";
         public const string SqlSelectCommand = "SELECT * FROM " + SqlTableName + " ";
-        //private readonly ILogger _logger;
+        private readonly ILogger _logger;
 
-        public tblFysikaDac()
-        {            
+        public tblFysikaDac(ILogger logger)
+        {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public tblFysikaDac(string ConnectionString)
+        public tblFysikaDac(string ConnectionString, ILogger logger)
         {
-            //_logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             Connection = ConnectionFactory.createConnection(ConnectionString);
             //_logger.LogTrace(1, ConnectionString);
         }
 
-        public tblFysikaDac(IDbConnection connection)
+        public tblFysikaDac(IDbConnection connection, ILogger<tblFysikaDac> logger)
         {
-            //_logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));//_logger = logger;
             Connection = connection;
         }
 
-        public tblFysikaDac(IDbTransaction transaction)
+        public tblFysikaDac(IDbTransaction transaction, ILogger<tblFysikaDac> logger)
         {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             Transaction = transaction;
             Connection = transaction.Connection;
         }
 
-        public tblFysikaDac(BaseDac dapProvider)
+        public tblFysikaDac(BaseDac dapProvider, ILogger<tblFysikaDac> logger)
         {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger)); 
             Transaction = dapProvider.Transaction;
             Connection = dapProvider.Connection;
         }
@@ -84,6 +87,7 @@ namespace MitrooPistV2.Data
             }
             catch (NpgsqlException ex)
             {
+                _logger.LogError(1, "Npgsql Exception Code:" + ex.ErrorCode + " Message :" + ex.Message);
                 return null;
             }
         }
@@ -99,7 +103,7 @@ namespace MitrooPistV2.Data
             catch (NpgsqlException ex)
             {
                 Console.WriteLine(ex.Message);
-                //_logger.LogError(1, "List NpgsqlException Code:" + ex.ErrorCode + " Message :" + ex.Message);
+                _logger.LogError(1, "NpgsqlException Code:" + ex.ErrorCode + " Message :" + ex.Message);
                 return null;
             }
         }
@@ -119,6 +123,7 @@ namespace MitrooPistV2.Data
             }
             catch (NpgsqlException ex)
             {
+                _logger.LogError(1, "Npgsql Exception Code:" + ex.ErrorCode + " Message :" + ex.Message);
                 return 0;
             }
         }
@@ -132,6 +137,7 @@ namespace MitrooPistV2.Data
             }
             catch (NpgsqlException ex)
             {
+                _logger.LogError(1, "Npgsql Exception Code:" + ex.ErrorCode + " Message :" + ex.Message);
                 return false;
             }
         }
@@ -145,6 +151,7 @@ namespace MitrooPistV2.Data
             }
             catch (NpgsqlException ex)
             {
+                _logger.LogError(1, "Npgsql Exception Code:" + ex.ErrorCode + " Message :" + ex.Message);
                 return false;
             }
         }
