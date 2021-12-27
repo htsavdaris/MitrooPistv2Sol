@@ -36,18 +36,18 @@ namespace MitrooPistV2.Data
 
         public tblNomikaDac( ILogger logger)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+           // _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public tblNomikaDac(string ConnectionString, ILogger logger)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            //_logger = logger ?? throw new ArgumentNullException(nameof(logger));
             Connection = ConnectionFactory.createConnection(ConnectionString);
         }
 
         public tblNomikaDac(IDbConnection connection, ILogger logger)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            //_logger = logger ?? throw new ArgumentNullException(nameof(logger));
             Connection = connection;
         }
 
@@ -111,11 +111,13 @@ namespace MitrooPistV2.Data
             }
         }
 
-        public long Insert(tblNomika crmUser)
+        public long Insert(tblNomika obj)
         {
             try
             {
-                var identity = Connection.Insert<tblNomika>(crmUser);
+                var identity = Connection.Insert<tblNomika>(obj);
+                if (identity == 0)
+                    identity = obj.fldam;
                 return identity;
             }
             catch (NpgsqlException ex)
@@ -125,11 +127,11 @@ namespace MitrooPistV2.Data
             }
         }
 
-        public bool Update(tblNomika crmUser)
+        public bool Update(tblNomika obj)
         {
             try
             {
-                var isSuccess = Connection.Update<tblNomika>(crmUser);
+                var isSuccess = Connection.Update<tblNomika>(obj);
                 return isSuccess;
             }
             catch (NpgsqlException ex)
@@ -139,11 +141,11 @@ namespace MitrooPistV2.Data
             }
         }
 
-        public bool Delete(tblNomika crmUser)
+        public bool Delete(tblNomika obj)
         {
             try
             {
-                var isSuccess = Connection.Delete<tblNomika>(crmUser);
+                var isSuccess = Connection.Delete<tblNomika>(obj);
                 return isSuccess;
             }
             catch (NpgsqlException ex)

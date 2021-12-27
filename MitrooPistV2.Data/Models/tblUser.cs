@@ -32,24 +32,24 @@ namespace MitrooPistV2.Data
 
         public tblUserDac(ILogger logger)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            //_logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public tblUserDac(string ConnectionString, ILogger logger)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            //_logger = logger ?? throw new ArgumentNullException(nameof(logger));
             Connection = ConnectionFactory.createConnection(ConnectionString);
         }
 
         public tblUserDac(IDbConnection connection, ILogger logger)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            //_logger = logger ?? throw new ArgumentNullException(nameof(logger));
             Connection = connection;
         }
 
         public tblUserDac(IDbTransaction transaction, ILogger logger)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            //_logger = logger ?? throw new ArgumentNullException(nameof(logger));
             Transaction = transaction;
             Connection = transaction.Connection;
         }

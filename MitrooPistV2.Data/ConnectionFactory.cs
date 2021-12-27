@@ -18,6 +18,7 @@ namespace MitrooPistV2.Data
             }
             catch (NpgsqlException ex)
             {
+                
                 return null;
             }
         }

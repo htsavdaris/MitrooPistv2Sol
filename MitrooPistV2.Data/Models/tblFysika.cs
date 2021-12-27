@@ -119,6 +119,8 @@ namespace MitrooPistV2.Data
             try
             {
                 var identity = Connection.Insert<tblFysika>(obj);
+                if (identity == 0)
+                    identity = obj.fldam;                
                 return identity;
             }
             catch (NpgsqlException ex)

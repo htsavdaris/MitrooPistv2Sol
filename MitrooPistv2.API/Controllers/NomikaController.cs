@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using MitrooPistV2.Data;
+using Microsoft.Extensions.Logging;
+using NLog;
 
 namespace MitrooPistv2.API.Controllers
 {
@@ -21,7 +23,9 @@ namespace MitrooPistv2.API.Controllers
     public class NomikaController : ControllerBase
     {
         private readonly IConfiguration configuration;
-        public NomikaController(IConfiguration config)
+        private readonly ILogger<NomikaController> _logger;
+
+        public NomikaController(IConfiguration config, ILogger<FysikaController> logger)
         {
             this.configuration = config;
         }
@@ -31,7 +35,7 @@ namespace MitrooPistv2.API.Controllers
         {
             string connStr = configuration.GetConnectionString("DefaultConnection");
             tblNomika obj;
-            using (tblNomikaDac dac = new tblNomikaDac(connStr))
+            using (tblNomikaDac dac = new tblNomikaDac(connStr, _logger))
             {
                 try
                 {
@@ -55,7 +59,7 @@ namespace MitrooPistv2.API.Controllers
         {
             string connStr = configuration.GetConnectionString("DefaultConnection");
             List<tblNomika> nomikaList;
-            using (tblNomikaDac dac = new tblNomikaDac(connStr))
+            using (tblNomikaDac dac = new tblNomikaDac(connStr, _logger))
             {
                 try
                 {
@@ -79,7 +83,7 @@ namespace MitrooPistv2.API.Controllers
         public IActionResult Post([FromBody] tblNomika obj)
         {
             string connStr = configuration.GetConnectionString("DefaultConnection");
-            using (tblNomikaDac dac = new tblNomikaDac(connStr))
+            using (tblNomikaDac dac = new tblNomikaDac(connStr, _logger))
             {
                 try
                 {
@@ -100,7 +104,7 @@ namespace MitrooPistv2.API.Controllers
         public IActionResult Put(int id, [FromBody] tblNomika obj)
         {
             string connStr = configuration.GetConnectionString("DefaultConnection");
-            using (tblNomikaDac dac = new tblNomikaDac(connStr))
+            using (tblNomikaDac dac = new tblNomikaDac(connStr, _logger))
             {
                 bool isSuccess = dac.Update(obj);
             }

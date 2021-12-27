@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using MitrooPistV2.Data;
 using MitrooPistv2.API.Models;
+using Microsoft.Extensions.Logging;
+using NLog;
 
 namespace MitrooPistv2.API.Controllers
 {
@@ -23,6 +25,7 @@ namespace MitrooPistv2.API.Controllers
     {
 
         private readonly IConfiguration configuration;
+        private readonly ILogger<UserController> _logger;
         public UserController(IConfiguration config)
         {
             this.configuration = config;
@@ -33,7 +36,7 @@ namespace MitrooPistv2.API.Controllers
         {
             string connStr = configuration.GetConnectionString("DefaultConnection");
             tblUser obj;
-            using (tblUserDac dac = new tblUserDac(connStr))
+            using (tblUserDac dac = new tblUserDac(connStr, _logger))
             {
                 obj = dac.Get(id);
                 if (obj != null)
@@ -48,7 +51,7 @@ namespace MitrooPistv2.API.Controllers
         {
             string connStr = configuration.GetConnectionString("DefaultConnection");
             List<tblUser> userList;
-            using (tblUserDac dac = new tblUserDac(connStr))
+            using (tblUserDac dac = new tblUserDac(connStr, _logger))
             {
                 userList = dac.GetAll();
                 userList.Shuffle();
@@ -68,7 +71,7 @@ namespace MitrooPistv2.API.Controllers
         {
             string connStr = configuration.GetConnectionString("DefaultConnection");
             tblUser user;
-            using (tblUserDac dac = new tblUserDac(connStr))
+            using (tblUserDac dac = new tblUserDac(connStr, _logger))
             {
                 user = dac.Authenticate(userDto.login, userDto.password);
             }
@@ -108,7 +111,7 @@ namespace MitrooPistv2.API.Controllers
         {
             string connStr = configuration.GetConnectionString("DefaultConnection");
             bool res;
-            using (tblUserDac dac = new tblUserDac(connStr))
+            using (tblUserDac dac = new tblUserDac(connStr, _logger))
             {
                 res = dac.ChangePassword(changePass.login, changePass.oldpassword, changePass.newpassword);
             }
