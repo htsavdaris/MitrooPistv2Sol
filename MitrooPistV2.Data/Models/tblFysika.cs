@@ -49,7 +49,6 @@ namespace MitrooPistV2.Data
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             Connection = ConnectionFactory.createConnection(ConnectionString);
-            //_logger.LogTrace(1, ConnectionString);
         }
 
         public tblFysikaDac(IDbConnection connection, ILogger<tblFysikaDac> logger)
