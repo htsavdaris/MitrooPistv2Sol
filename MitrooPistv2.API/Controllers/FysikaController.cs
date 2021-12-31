@@ -93,7 +93,7 @@ namespace MitrooPistv2.API.Controllers
             {
                 try
                 {
-                    long id = dac.Insert(obj);
+                    long? id = dac.Insert(obj);
                     if (id > 0)
                         return Ok();
                     else

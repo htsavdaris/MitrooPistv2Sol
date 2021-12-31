@@ -3,18 +3,16 @@ using System.Collections.Generic;
 using System.Text;
 using System.Data;
 using Dapper;
-using Dapper.Contrib;
-using Dapper.Contrib.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Npgsql;
 using Microsoft.Extensions.Logging;
 
 namespace MitrooPistV2.Data
 {
-    [Dapper.Contrib.Extensions.Table("tblUser")]
+    [Table("tblUser")]
     public class tblUser
     {
-        [Dapper.Contrib.Extensions.Key]
+        [Key, Required]
         public int flduserid { get; set; }
 		public string fldname { get; set; }
 		public string fldlogin { get; set; }
@@ -23,70 +21,20 @@ namespace MitrooPistV2.Data
 	}
 
 
-    public class tblUserDac : BaseDac
+    public class tblUserDac : DapperBaseRepository<tblUser>
     {
+        private const string tableName = "tbluser";
 
-        public const string SqlTableName = "tbluser";
-        public const string SqlSelectCommand = "SELECT * FROM " + SqlTableName + " ";
-        private readonly ILogger _logger;
-
-        public tblUserDac(ILogger logger)
+        public tblUserDac(string ConnectionString, ILogger logger) : base(tableName, ConnectionString, logger)
         {
-            //_logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            
         }
 
-        public tblUserDac(string ConnectionString, ILogger logger)
+        public tblUserDac(IDbConnection connection, ILogger logger) : base(tableName, connection, logger)
         {
-            //_logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            Connection = ConnectionFactory.createConnection(ConnectionString);
+
         }
 
-        public tblUserDac(IDbConnection connection, ILogger logger)
-        {
-            //_logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            Connection = connection;
-        }
-
-        public tblUserDac(IDbTransaction transaction, ILogger logger)
-        {
-            //_logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            Transaction = transaction;
-            Connection = transaction.Connection;
-        }
-
-        public tblUserDac(BaseDac dapProvider)
-        {
-            Transaction = dapProvider.Transaction;
-            Connection = dapProvider.Connection;
-        }
-
-        public tblUser Get(long id)
-        {
-            try
-            {
-                var obj = Connection.Get<tblUser>(id);
-                return obj;
-            }
-            catch (NpgsqlException ex)
-            {
-                _logger.LogError(1, "Npgsql Exception Code:" + ex.ErrorCode + " Message :" + ex.Message);
-                return null;
-            }
-        }
-
-        public List<tblUser> GetAll()
-        {
-            try
-            {
-                var oList = Connection.GetAll<tblUser>().AsList();
-                return oList;
-            }
-            catch (NpgsqlException ex)
-            {
-                _logger.LogError(1, "Npgsql Exception Code:" + ex.ErrorCode + " Message :" + ex.Message);
-                return null;
-            }  
-        }
 
         public tblUser GetByEmail(string email)
         {
@@ -97,7 +45,7 @@ namespace MitrooPistV2.Data
             }
             catch (NpgsqlException ex)
             {
-                _logger.LogError(1, "Npgsql Exception Code:" + ex.ErrorCode + " Message :" + ex.Message);
+                _logger.LogError(1, "GetByEmail: Npgsql Exception Code:" + ex.ErrorCode + " Message :" + ex.Message);
                 return null;
             }
         }
@@ -116,52 +64,10 @@ namespace MitrooPistV2.Data
             }
             catch (Npgsql.NpgsqlException ex)
             {
-                _logger.LogError(1, "Npgsql Exception Code:" + ex.ErrorCode + " Message :" + ex.Message);
+                _logger.LogError(1, "GetByLogin: Npgsql Exception Code:" + ex.ErrorCode + " Message :" + ex.Message);
                 return null;
             }
             
-        }
-
-        public long Insert(tblUser oUser)
-        {
-            try
-            {
-                var obj = Connection.Insert<tblUser>(oUser);
-                return obj;
-            }
-            catch (NpgsqlException ex)
-            {
-                _logger.LogError(1, "Npgsql Exception Code:" + ex.ErrorCode + " Message :" + ex.Message);
-                return 0;
-            }
-        }
-
-        public bool Update(tblUser oUser)
-        {
-            try
-            {
-                var isSuccess = Connection.Update<tblUser>(oUser);
-                return isSuccess;
-            }
-            catch (NpgsqlException ex)
-            {
-                _logger.LogError(1, "Npgsql Exception Code:" + ex.ErrorCode + " Message :" + ex.Message);
-                return false;
-            }
-        }
-
-        public bool Delete(tblUser crmUser)
-        {
-            try
-            {
-                var isSuccess = Connection.Delete<tblUser>(crmUser);
-                return isSuccess;
-            }
-            catch (NpgsqlException ex)
-            {
-                _logger.LogError(1, "Npgsql Exception Code:" + ex.ErrorCode + " Message :" + ex.Message);
-                return false;
-            }
         }
 
         public tblUser Authenticate(string login, string providedpassword)
@@ -198,7 +104,7 @@ namespace MitrooPistV2.Data
                 }
                 catch (NpgsqlException ex)
                 {
-                    _logger.LogError(1, "Npgsql Exception Code:" + ex.ErrorCode + " Message :" + ex.Message);
+                    _logger.LogError(1, "Register: Npgsql Exception Code:" + ex.ErrorCode + " Message :" + ex.Message);
                     return false;
                 }
             }
@@ -214,8 +120,8 @@ namespace MitrooPistV2.Data
             {
                 string hashedpass = pw.HashPassword(user.fldlogin, newpass);
                 user.fldpassword = hashedpass;
-                bool succ = Connection.Update<tblUser>(user);
-                return succ;
+                int rows = Connection.Update<tblUser>(user);
+                return (rows > 0);
             }
             else
             {
