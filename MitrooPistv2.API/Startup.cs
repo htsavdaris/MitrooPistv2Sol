@@ -50,7 +50,7 @@ namespace MitrooPistv2.API
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(secret),
                         ValidateIssuer = true,
-                        ValidateAudience = true,
+                        ValidateAudience = false,
                         ValidateLifetime = true,
                         ValidIssuer = "http://localhost:5000",
                         ValidAudience = "http://localhost:5000",

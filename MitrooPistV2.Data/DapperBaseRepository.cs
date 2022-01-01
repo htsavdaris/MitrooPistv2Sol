@@ -114,7 +114,7 @@ namespace MitrooPistV2.Data
         {
             try
             {
-                var isSuccess = Connection.Delete<long>(id);
+                var isSuccess = Connection.Delete<TEntity>(id);
                 return (isSuccess > 0);
             }
             catch (NpgsqlException ex)

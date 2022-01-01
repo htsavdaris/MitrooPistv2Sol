@@ -90,7 +90,7 @@ namespace MitrooPistv2.API.Controllers
 
             var tokeOptions = new JwtSecurityToken(
                 issuer: "http://localhost:5000",
-                audience: "http://localhost:4200",
+                audience: "http://localhost:5000",
                 claims: claims,
                 expires: DateTime.Now.AddMinutes(15),
                 signingCredentials: signinCredentials
