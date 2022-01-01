@@ -41,10 +41,12 @@ namespace MitrooPistv2.API
                     c.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     c.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 }).AddJwtBearer(c => { 
+                    //c.Authority = "http://localhost:5000";
                     c.RequireHttpsMetadata = false;
                     c.SaveToken = true;
                     c.TokenValidationParameters = new TokenValidationParameters
                     {
+                        
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(secret),
                         ValidateIssuer = true,

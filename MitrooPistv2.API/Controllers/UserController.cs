@@ -79,7 +79,7 @@ namespace MitrooPistv2.API.Controllers
             if (user == null)
                 return StatusCode(StatusCodes.Status403Forbidden, new { message = "Username or password is incorrect" });
 
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
+            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345!"));
             var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new List<Claim>
@@ -90,7 +90,7 @@ namespace MitrooPistv2.API.Controllers
 
             var tokeOptions = new JwtSecurityToken(
                 issuer: "http://localhost:5000",
-                audience: "http://localhost:5000",
+                audience: "http://localhost:4200",
                 claims: claims,
                 expires: DateTime.Now.AddMinutes(15),
                 signingCredentials: signinCredentials

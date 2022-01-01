@@ -58,8 +58,7 @@ namespace MitrooPistv2.API.Controllers
         public ActionResult<List<tblFysika>> Get()
         {
             _logger.LogTrace(1, "Get All is called");
-            string connStr = configuration.GetConnectionString("DefaultConnection");
-            _logger.LogTrace(1, "Connection String:" + connStr);
+            string connStr = configuration.GetConnectionString("DefaultConnection");            
             List<tblFysika> fysikaList;
             using (tblFysikaDac dac = new tblFysikaDac(connStr, _logger))
             {
@@ -126,8 +125,26 @@ namespace MitrooPistv2.API.Controllers
 
         // DELETE: api/
         [HttpDelete("{id}"), Authorize]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            string connStr = configuration.GetConnectionString("DefaultConnection");
+            using (tblFysikaDac dac = new tblFysikaDac(connStr, _logger))
+            {
+                try
+                {
+                    bool isSuccess = dac.Delete(id);
+                    if (isSuccess)
+                          return Ok();
+                    else
+                         return Conflict();
+                   
+                }
+                catch (Npgsql.NpgsqlException ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            
         }
 
     }
