@@ -84,7 +84,7 @@ namespace MitrooPistv2.API.Controllers
         }
 
 
-        [HttpPost, AllowAnonymous]
+        [HttpPost, Authorize]
         public IActionResult Post([FromBody] tblFysika obj)
         {
             string connStr = configuration.GetConnectionString("DefaultConnection");
@@ -105,7 +105,7 @@ namespace MitrooPistv2.API.Controllers
             }
         }
 
-        [HttpPut("{id}"), AllowAnonymous]
+        [HttpPut("{id}"), Authorize]
         public IActionResult Put(int id, [FromBody] tblFysika obj)
         {
             string connStr = configuration.GetConnectionString("DefaultConnection");
@@ -114,13 +114,17 @@ namespace MitrooPistv2.API.Controllers
                 try
                 {
                     bool isSuccess = dac.Update(obj);
+                    if ( isSuccess)
+                        return Ok();
+                    else
+                        return Conflict();
                 }
                 catch (Npgsql.NpgsqlException ex)
                 {
                     return BadRequest(ex.Message);
                 }
             }
-            return Ok();
+            
         }
 
         // DELETE: api/
@@ -136,8 +140,7 @@ namespace MitrooPistv2.API.Controllers
                     if (isSuccess)
                           return Ok();
                     else
-                         return Conflict();
-                   
+                         return BadRequest();
                 }
                 catch (Npgsql.NpgsqlException ex)
                 {

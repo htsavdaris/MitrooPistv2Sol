@@ -16,7 +16,7 @@ namespace MitrooPistV2.Data
         public int fldam { get; set; }
         public string fldeponymia { get; set; }
         public string fldypefthinos { get; set; }
-        public string flddieythynsi { get; set; }
+        public string flddiefthinsi { get; set; }
         public string fldnomos { get; set; }
         public string fldtilefono { get; set; }
         public string fldemail { get; set; }

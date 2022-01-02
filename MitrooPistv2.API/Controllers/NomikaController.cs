@@ -25,9 +25,11 @@ namespace MitrooPistv2.API.Controllers
         private readonly IConfiguration configuration;
         private readonly ILogger<NomikaController> _logger;
 
-        public NomikaController(IConfiguration config, ILogger<FysikaController> logger)
+        public NomikaController(IConfiguration config, ILogger<NomikaController> logger)
         {
             this.configuration = config;
+            _logger = logger;
+            _logger.LogTrace(1, "NLog injected into Nomika Controller");
         }
 
         [HttpGet("{id}"), AllowAnonymous]
@@ -67,12 +69,16 @@ namespace MitrooPistv2.API.Controllers
                     nomikaList.Shuffle();
                     if (nomikaList == null)
                     {
+                        _logger.LogTrace(1, "Not Found");
                         return NotFound();
                     }
+                    _logger.LogTrace(1, "No of Items:" + nomikaList.Count().ToString());
+                    nomikaList.Shuffle();
                     return Ok(nomikaList);
                 }
                 catch (Npgsql.NpgsqlException ex)
                 {
+                    _logger.LogError(1, "NpgsqlException Code:" + ex.ErrorCode + " Message :" + ex.Message);
                     return BadRequest(ex.Message);
                 }
             }
@@ -106,15 +112,41 @@ namespace MitrooPistv2.API.Controllers
             string connStr = configuration.GetConnectionString("DefaultConnection");
             using (tblNomikaDac dac = new tblNomikaDac(connStr, _logger))
             {
-                bool isSuccess = dac.Update(obj);
+                try
+                {
+                    bool isSuccess = dac.Update(obj);
+                    if (isSuccess)
+                        return Ok();
+                    else
+                        return BadRequest();
+                }
+                catch (Npgsql.NpgsqlException ex)
+                {
+                    return BadRequest(ex.Message);
+                }
             }
-            return NoContent();
         }
 
         // DELETE: api/
         [HttpDelete("{id}"), Authorize]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            string connStr = configuration.GetConnectionString("DefaultConnection");
+            using (tblNomikaDac dac = new tblNomikaDac(connStr, _logger))
+            {
+                try
+                {
+                    bool isSuccess = dac.Delete(id);
+                    if (isSuccess)
+                        return Ok();
+                    else
+                        return BadRequest();
+                }
+                catch (Npgsql.NpgsqlException ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
         }
     }
 }
