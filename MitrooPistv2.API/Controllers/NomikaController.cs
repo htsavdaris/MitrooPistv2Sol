@@ -95,7 +95,7 @@ namespace MitrooPistv2.API.Controllers
                 {
                     long? id = dac.Insert(obj);
                     if (id > 0)
-                        return CreatedAtRoute("fysika", new { id = id }, obj);
+                        return Ok();
                     else
                         return Conflict();
                 }
