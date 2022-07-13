@@ -9,7 +9,7 @@
     <PackageReference Include="Dapper.SimpleCRUD" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
-    <PackageReference Include="Npgsql" Version="6.0.2" />
+    <PackageReference Include="Npgsql" Version="6.0.5" />
   </ItemGroup>
 
 </Project>
