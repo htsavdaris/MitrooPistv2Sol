@@ -1,0 +1,7 @@
+2022-07-14 21:29:02.5686 Info Message Template Auto Format enabled
+2022-07-14 21:29:02.5876 Info Loading assembly: NLog.Web.AspNetCore
+2022-07-14 21:29:02.6356 Info Adding target ConsoleTarget(Name=Console)
+2022-07-14 21:29:02.6549 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'allfile' not found for logging rule: *.
+2022-07-14 21:29:02.7022 Info Validating config: TargetNames=Console, ConfigItems=10, FilePath=/app/bin/Debug/net6.0/nlog.debug.config
+2022-07-14 21:29:02.7196 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: Console
+2022-07-14 21:29:04.2475 Info Validating config: TargetNames=Console, ConfigItems=10, FilePath=/app/bin/Debug/net6.0/nlog.debug.config

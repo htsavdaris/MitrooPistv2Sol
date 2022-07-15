@@ -13,7 +13,7 @@ COPY . .
 WORKDIR "/src/MitrooPistv2.API"
 RUN dotnet build "MitrooPistv2.API.csproj" -c Release -o /app/build
 
-FROM build AS publishhttps://docs.microsoft.com/en-us/visualstudio/containers/container-tools?view=vs-2022
+FROM build AS publish
 RUN dotnet publish "MitrooPistv2.API.csproj" -c Release -o /app/publish
 
 FROM base AS final
