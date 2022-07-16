@@ -52,6 +52,7 @@ namespace MitrooPistV2.Data
         }
         public TEntity Get(long id)
         {
+            _logger.LogTrace(1, "Get DB in BR is called");
             try
             {
                 var obj = Connection.Get<TEntity>(id);

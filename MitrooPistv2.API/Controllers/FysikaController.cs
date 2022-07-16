@@ -33,6 +33,7 @@ namespace MitrooPistv2.API.Controllers
         [HttpGet("{id}"), AllowAnonymous]
         public ActionResult<tblFysika> Get(long id)
         {
+            _logger.LogTrace(1, "Get one is called");
             string connStr = configuration.GetConnectionString("DefaultConnection");
             tblFysika obj;
             using (tblFysikaDac dac = new tblFysikaDac(connStr,_logger))
