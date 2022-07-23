@@ -24,18 +24,20 @@ namespace MitrooPistv2.API.Controllers
     {
         private readonly IConfiguration configuration;
         private readonly ILogger<NomikaController> _logger;
+        private DbConnectionStringResolver _dbConnectionStringResolver;
 
         public NomikaController(IConfiguration config, ILogger<NomikaController> logger)
         {
             this.configuration = config;
             _logger = logger;
             _logger.LogTrace(1, "NLog injected into Nomika Controller");
+            _dbConnectionStringResolver = new DbConnectionStringResolver(configuration);
         }
 
         [HttpGet("{id}"), AllowAnonymous]
         public ActionResult<tblNomika> Get(long id)
         {
-            string connStr = configuration.GetConnectionString("DefaultConnection");
+            string connStr = _dbConnectionStringResolver.GetNameOrConnectionString();
             tblNomika obj;
             using (tblNomikaDac dac = new tblNomikaDac(connStr, _logger))
             {
@@ -59,7 +61,7 @@ namespace MitrooPistv2.API.Controllers
         [HttpGet, AllowAnonymous]
         public ActionResult<List<tblNomika>> Get()
         {
-            string connStr = configuration.GetConnectionString("DefaultConnection");
+            string connStr = _dbConnectionStringResolver.GetNameOrConnectionString();
             List<tblNomika> nomikaList;
             using (tblNomikaDac dac = new tblNomikaDac(connStr, _logger))
             {
@@ -88,7 +90,7 @@ namespace MitrooPistv2.API.Controllers
         [HttpPost, Authorize]
         public IActionResult Post([FromBody] tblNomika obj)
         {
-            string connStr = configuration.GetConnectionString("DefaultConnection");
+            string connStr = _dbConnectionStringResolver.GetNameOrConnectionString();
             using (tblNomikaDac dac = new tblNomikaDac(connStr, _logger))
             {
                 try
@@ -109,7 +111,7 @@ namespace MitrooPistv2.API.Controllers
         [HttpPut("{id}"), Authorize]
         public IActionResult Put(int id, [FromBody] tblNomika obj)
         {
-            string connStr = configuration.GetConnectionString("DefaultConnection");
+            string connStr = _dbConnectionStringResolver.GetNameOrConnectionString();
             using (tblNomikaDac dac = new tblNomikaDac(connStr, _logger))
             {
                 try
@@ -131,7 +133,7 @@ namespace MitrooPistv2.API.Controllers
         [HttpDelete("{id}"), Authorize]
         public IActionResult Delete(int id)
         {
-            string connStr = configuration.GetConnectionString("DefaultConnection");
+            string connStr = _dbConnectionStringResolver.GetNameOrConnectionString();
             using (tblNomikaDac dac = new tblNomikaDac(connStr, _logger))
             {
                 try

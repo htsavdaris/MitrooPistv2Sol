@@ -21,12 +21,14 @@ namespace MitrooPistv2.API.Controllers
     {
         private readonly IConfiguration configuration;
         private readonly ILogger<FysikaController> _logger;
+        private DbConnectionStringResolver _dbConnectionStringResolver;
 
         public FysikaController(IConfiguration config, ILogger<FysikaController> logger)
         {
             this.configuration = config;
             _logger = logger;
-            _logger.LogTrace(1, "NLog injected into FysikaController");           
+            _logger.LogTrace(1, "NLog injected into FysikaController");   
+            _dbConnectionStringResolver = new DbConnectionStringResolver(configuration);
         }
 
 
@@ -34,7 +36,7 @@ namespace MitrooPistv2.API.Controllers
         public ActionResult<tblFysika> Get(long id)
         {
             _logger.LogTrace(1, "Get one is called");
-            string connStr = configuration.GetConnectionString("DefaultConnection");
+            string connStr = _dbConnectionStringResolver.GetNameOrConnectionString();
             tblFysika obj;
             using (tblFysikaDac dac = new tblFysikaDac(connStr,_logger))
             {
@@ -59,38 +61,36 @@ namespace MitrooPistv2.API.Controllers
         public ActionResult<List<tblFysika>> Get()
         {
             _logger.LogTrace(1, "Get All is called");
-            string connStr = configuration.GetConnectionString("DefaultConnection");            
+            string connStr = _dbConnectionStringResolver.GetNameOrConnectionString();
             List<tblFysika> fysikaList;
-            //using (tblFysikaDac dac = new tblFysikaDac(connStr, _logger))
-            //{
-            //    try
-            //    {
-            //        //fysikaList = dac.GetAll();
-            //        _logger.LogTrace(1, "DAC GetAll Called");
-            //        //if (fysikaList == null)
-            //        //{
-            //        //    _logger.LogTrace(1, "Not Found");
-            //        //    return NotFound();
-            //        //}
-            //        //_logger.LogTrace(1, "No of Items:" + fysikaList.Count().ToString());
-            //        //fysikaList.Shuffle();
-            //        //return Ok(fysikaList);
-            //        return Ok("hello world");
-            //    }
-            //    catch (Npgsql.NpgsqlException ex)
-            //    {
-            //        _logger.LogError(1, "NpgsqlException Code:" + ex.ErrorCode + " Message :" + ex.Message);
-            //        return BadRequest(ex.Message);
-            //    }
-            //}
-            return Ok("hello world");
+            using (tblFysikaDac dac = new tblFysikaDac(connStr, _logger))
+            {
+                try
+                {
+                    fysikaList = dac.GetAll();
+                    _logger.LogTrace(1, "DAC GetAll Called");
+                    if (fysikaList == null)
+                    {
+                        _logger.LogTrace(1, "Not Found");
+                        return NotFound();
+                    }
+                    _logger.LogTrace(1, "No of Items:" + fysikaList.Count().ToString());
+                    fysikaList.Shuffle();
+                    return Ok(fysikaList);                    
+                }
+                catch (Npgsql.NpgsqlException ex)
+                {
+                    _logger.LogError(1, "NpgsqlException Code:" + ex.ErrorCode + " Message :" + ex.Message);
+                    return BadRequest(ex.Message);
+                }
+            }            
         }
 
 
         [HttpPost, Authorize]
         public IActionResult Post([FromBody] tblFysika obj)
         {
-            string connStr = configuration.GetConnectionString("DefaultConnection");
+            string connStr = _dbConnectionStringResolver.GetNameOrConnectionString();
             using (tblFysikaDac dac = new tblFysikaDac(connStr,_logger))
             {
                 try
@@ -111,7 +111,7 @@ namespace MitrooPistv2.API.Controllers
         [HttpPut("{id}"), Authorize]
         public IActionResult Put(int id, [FromBody] tblFysika obj)
         {
-            string connStr = configuration.GetConnectionString("DefaultConnection");
+            string connStr = _dbConnectionStringResolver.GetNameOrConnectionString();
             using (tblFysikaDac dac = new tblFysikaDac(connStr,_logger))
             {
                 try
@@ -134,7 +134,7 @@ namespace MitrooPistv2.API.Controllers
         [HttpDelete("{id}"), Authorize]
         public IActionResult Delete(int id)
         {
-            string connStr = configuration.GetConnectionString("DefaultConnection");
+            string connStr = _dbConnectionStringResolver.GetNameOrConnectionString();
             using (tblFysikaDac dac = new tblFysikaDac(connStr, _logger))
             {
                 try

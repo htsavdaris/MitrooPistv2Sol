@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
@@ -26,15 +26,20 @@ namespace MitrooPistv2.API.Controllers
 
         private readonly IConfiguration configuration;
         private readonly ILogger<UserController> _logger;
-        public UserController(IConfiguration config)
+        private DbConnectionStringResolver _dbConnectionStringResolver;
+
+        public UserController(IConfiguration config, ILogger<UserController> logger)
         {
             this.configuration = config;
+            _logger = logger;
+            _logger.LogTrace(1, "NLog injected into User Controller");
+            _dbConnectionStringResolver = new DbConnectionStringResolver(configuration);
         }
 
         [HttpGet("{id}"), AllowAnonymous]
         public ActionResult<tblUser> Get(long id)
         {
-            string connStr = configuration.GetConnectionString("DefaultConnection");
+            string connStr = _dbConnectionStringResolver.GetNameOrConnectionString();
             tblUser obj;
             using (tblUserDac dac = new tblUserDac(connStr, _logger))
             {
@@ -49,7 +54,7 @@ namespace MitrooPistv2.API.Controllers
         [HttpGet, AllowAnonymous]
         public ActionResult<List<tblUser>> Get()
         {
-            string connStr = configuration.GetConnectionString("DefaultConnection");
+            string connStr = _dbConnectionStringResolver.GetNameOrConnectionString();
             List<tblUser> userList;
             using (tblUserDac dac = new tblUserDac(connStr, _logger))
             {
@@ -69,7 +74,7 @@ namespace MitrooPistv2.API.Controllers
         [EnableCors("MyPolicy")]
         public IActionResult Authenticate([FromBody] UserAuth userDto)
         {
-            string connStr = configuration.GetConnectionString("DefaultConnection");
+            string connStr = _dbConnectionStringResolver.GetNameOrConnectionString();
             tblUser user;
             using (tblUserDac dac = new tblUserDac(connStr, _logger))
             {

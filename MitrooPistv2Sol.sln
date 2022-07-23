@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31112.23
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MitrooPistv2.API", "MitrooPistv2.API\MitrooPistv2.API.csproj", "{2BA85438-F6BF-4978-B52E-8F82235AA1F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MitrooPistV2.Data", "MitrooPistV2.Data\MitrooPistV2.Data.csproj", "{0805D936-C3A8-4DC9-8B15-B904FA260304}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MitrooPistV2.Data", "MitrooPistV2.Data\MitrooPistV2.Data.csproj", "{0805D936-C3A8-4DC9-8B15-B904FA260304}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +15,8 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{2BA85438-F6BF-4978-B52E-8F82235AA1F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2BA85438-F6BF-4978-B52E-8F82235AA1F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2BA85438-F6BF-4978-B52E-8F82235AA1F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2BA85438-F6BF-4978-B52E-8F82235AA1F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BA85438-F6BF-4978-B52E-8F82235AA1F5}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BA85438-F6BF-4978-B52E-8F82235AA1F5}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{0805D936-C3A8-4DC9-8B15-B904FA260304}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0805D936-C3A8-4DC9-8B15-B904FA260304}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0805D936-C3A8-4DC9-8B15-B904FA260304}.Release|Any CPU.ActiveCfg = Release|Any CPU
