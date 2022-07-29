@@ -10,7 +10,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EAB9AC3-1C5E-4ED3-8E2A-450F6A870189}"
 	ProjectSection(SolutionItems) = preProject
 		azure-pipelines.yml = azure-pipelines.yml
-		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
 Global
