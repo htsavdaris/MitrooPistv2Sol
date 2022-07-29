@@ -13,7 +13,7 @@ variables:
   dockerRegistryServiceConnection: 'aba3e429-d8fa-4dbe-bc45-1bba16c302ce'
   imageRepository: 'htsavdarismitroopistvsol'
   containerRegistry: 'pistopoites2vm.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+  dockerfilePath: '$(Build.SourcesDirectory)/MitrooPistv2.API/Dockerfile'
   tag: '$(Build.BuildId)'
 
   # Agent VM image name
