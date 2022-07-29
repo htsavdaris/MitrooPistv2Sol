@@ -50,6 +50,7 @@
         "USE_DOCKER": "True",
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
+      "DockerfileRunArguments": "-p 80:80",
       "publishAllPorts": true
     }
   }

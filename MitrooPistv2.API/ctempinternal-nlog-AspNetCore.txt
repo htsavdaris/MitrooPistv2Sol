@@ -1,0 +1,10 @@
+2022-07-29 13:30:47.3351 Info Message Template Auto Format enabled
+2022-07-29 13:30:47.3605 Info Loading assembly: NLog.Web.AspNetCore
+2022-07-29 13:30:47.4331 Info Adding target FileTarget(Name=allfile)
+2022-07-29 13:30:47.4719 Info Validating config: TargetNames=allfile, ConfigItems=22, FilePath=/app/bin/Debug/net6.0/nlog.debug.config
+2022-07-29 13:30:49.0341 Info Validating config: TargetNames=allfile, ConfigItems=22, FilePath=/app/bin/Debug/net6.0/nlog.debug.config
+2022-07-29 13:42:27.5300 Info Message Template Auto Format enabled
+2022-07-29 13:42:27.5476 Info Loading assembly: NLog.Web.AspNetCore
+2022-07-29 13:42:27.6193 Info Adding target FileTarget(Name=allfile)
+2022-07-29 13:42:27.6604 Info Validating config: TargetNames=allfile, ConfigItems=22, FilePath=/app/bin/Debug/net6.0/nlog.debug.config
+2022-07-29 13:42:28.5640 Info Validating config: TargetNames=allfile, ConfigItems=22, FilePath=/app/bin/Debug/net6.0/nlog.debug.config
