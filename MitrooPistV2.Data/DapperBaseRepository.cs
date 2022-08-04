@@ -60,7 +60,7 @@ namespace MitrooPistV2.Data
             }
             catch (NpgsqlException ex)
             {
-                _logger.LogError(1, typeof(TEntity).FullName + " Get: Npgsql Exception Code:" + ex.ErrorCode + " Message :" + ex.Message);                
+                _logger.LogError(3, typeof(TEntity).FullName + " Get: Npgsql Exception Code:" + ex.ErrorCode + " Message :" + ex.Message);                
                 return null;
             }
         }
@@ -75,7 +75,7 @@ namespace MitrooPistV2.Data
             catch (NpgsqlException ex)
             {
                 Console.WriteLine(ex.Message);
-                _logger.LogError(1, typeof(TEntity).FullName + " GetAll: NpgsqlException Code:" + ex.ErrorCode + " Message :" + ex.Message);
+                _logger.LogError(3, typeof(TEntity).FullName + " GetAll: NpgsqlException Code:" + ex.ErrorCode + " Message :" + ex.Message);
                 return null;
             }
         }
@@ -92,7 +92,7 @@ namespace MitrooPistV2.Data
             }
             catch (NpgsqlException ex)
             {
-                _logger.LogError(1, typeof(TEntity).FullName + " Insert: Npgsql Exception Code:" + ex.ErrorCode + " Message :" + ex.Message);
+                _logger.LogError(3, typeof(TEntity).FullName + " Insert: Npgsql Exception Code:" + ex.ErrorCode + " Message :" + ex.Message);
                 return 0;
             }
         }
@@ -106,7 +106,7 @@ namespace MitrooPistV2.Data
             }
             catch (NpgsqlException ex)
             {
-                _logger.LogError(1, typeof(TEntity).FullName + " Update: Npgsql Exception Code:" + ex.ErrorCode + " Message :" + ex.Message);
+                _logger.LogError(3, typeof(TEntity).FullName + " Update: Npgsql Exception Code:" + ex.ErrorCode + " Message :" + ex.Message);
                 return false;
             }
         }

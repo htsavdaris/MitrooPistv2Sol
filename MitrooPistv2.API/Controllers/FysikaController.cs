@@ -35,7 +35,7 @@ namespace MitrooPistv2.API.Controllers
         [HttpGet("{id}"), AllowAnonymous]
         public ActionResult<tblFysika> Get(long id)
         {
-            _logger.LogTrace(1, "Get one is called");
+            _logger.LogTrace(1, "Fysika - Get one is called");
             string connStr = _dbConnectionStringResolver.GetNameOrConnectionString();
             tblFysika obj;
             using (tblFysikaDac dac = new tblFysikaDac(connStr,_logger))
@@ -60,7 +60,7 @@ namespace MitrooPistv2.API.Controllers
         [HttpGet, AllowAnonymous]
         public ActionResult<List<tblFysika>> Get()
         {
-            _logger.LogTrace(1, "Get All is called");
+            _logger.LogTrace(1, "Fysika - Get All is called");
             string connStr = _dbConnectionStringResolver.GetNameOrConnectionString();
             List<tblFysika> fysikaList;
             using (tblFysikaDac dac = new tblFysikaDac(connStr, _logger))
@@ -90,6 +90,7 @@ namespace MitrooPistv2.API.Controllers
         [HttpPost, Authorize]
         public IActionResult Post([FromBody] tblFysika obj)
         {
+            _logger.LogTrace(1, "Fysika - Post is called");
             string connStr = _dbConnectionStringResolver.GetNameOrConnectionString();
             using (tblFysikaDac dac = new tblFysikaDac(connStr,_logger))
             {
@@ -111,6 +112,7 @@ namespace MitrooPistv2.API.Controllers
         [HttpPut("{id}"), Authorize]
         public IActionResult Put(int id, [FromBody] tblFysika obj)
         {
+            _logger.LogTrace(1, "Fysika - Put All is called");
             string connStr = _dbConnectionStringResolver.GetNameOrConnectionString();
             using (tblFysikaDac dac = new tblFysikaDac(connStr,_logger))
             {
@@ -134,6 +136,7 @@ namespace MitrooPistv2.API.Controllers
         [HttpDelete("{id}"), Authorize]
         public IActionResult Delete(int id)
         {
+            _logger.LogTrace(1, "Fysika - Delete is called");
             string connStr = _dbConnectionStringResolver.GetNameOrConnectionString();
             using (tblFysikaDac dac = new tblFysikaDac(connStr, _logger))
             {
