@@ -32,7 +32,9 @@ namespace MitrooPistv2.API
                             return configuration["ConnectionStrings:LocalDockerConnection"]; 
                         }
                     }                                                                                                                     
-                case "Production": return null;
+                case "Production":
+                    string connstring = Environment.GetEnvironmentVariable("proddbconnectionstring");
+                    return connstring;
                 default:
                     return configuration.GetConnectionString("ConnectionStrings:LocalDBConnection");
             }
